@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laundry Mart</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Laundry Mart</h1>
+    </header>
+    <section>
+        <p>Laundry Mart is your one-stop destination for all your laundry needs. We offer high-quality washing and drying services at affordable prices.</p>
+        <img src="https://img.freepik.com/free-vector/laundry-room-equipment-wash-dry-clothes-cartoon-set-washing-machine-basket-detergent-bottles-powder-rope-with-hanging-underwear-shirts-isolated-white-wall_107791-5924.jpg?semt=ais_user_personalization&w=740&q=80" alt="Laundry Mart" width="400">
+        <h3>Our services include:</h3>
+        <ul>
+            <li>Washing and drying</li>
+            <li>Folding and ironing</li>
+            <li>Pickup and delivery</li>
+        </ul>
+        <p>Visit us today and experience the convenience of Laundry Mart!</p>
+        <h3>Our Laundry Services Price list</h3>
+        <table border="1">
+            <tr>
+                <th>Service</th>
+                <th>Price</th>
+            </tr>
+            <tr>
+                <td>Washing and Drying</td>
+                <td>₹10 per load</td>
+            </tr>
+            <tr>
+                <td>Folding and Ironing</td>
+                <td>₹5 per load</td>
+            </tr>
+            <tr>
+                <td>Pickup and Delivery</td>
+                <td>₹15 per trip</td>
+            </tr>
+        </table>
+
+        <h3>Book Now</h3>
+        <form action="/submit-booking" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="service">Select Service:</label>
+            <select id="service" name="service" required>
+            <option value="">--Please choose an option--</option>
+            <option value="washing">Washing and Drying</option>
+            <option value="folding">Folding and Ironing</option>
+            <option value="pickup">Pickup and Delivery</option>
+            </select><br><br>
+            <input type="submit" value="Book Now">
+        </form>
+        <p>For more information, contact us at info@laundrymart.com or call 123-456-7890.</p>
+    </section>
+    
+</body>
+</html>

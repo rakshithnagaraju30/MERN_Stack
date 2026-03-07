@@ -17,6 +17,7 @@ header{
     color: rgb(0, 0, 0);
     font-size: 30px;
     font-weight: bold;
+
 }
 
 .container{
@@ -41,30 +42,30 @@ header{
     border-radius: 15px;
 }
 
-form{
-    width: 100%;
-    height: auto;
+#name-container{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 20px;
+    gap: 5px;
 }
 
-form>input{
+#name{
     width: 200px;
     height: 30px;
-    margin: 10px;
+    padding: 5px;
+    font-size: 16px;
     border: 2px solid rgb(228, 241, 251);
-    padding: 6px;
     border-radius: 5px;
 }
-form>button{
+
+#greet-button{
     width: 100px;
-    height: 37px;
-    margin: 10px;
-    background-color: rgb(202, 202, 202);
-    border: 2px solid rgb(52, 53, 53);
-    color: rgb(0, 0, 0);
-    cursor: pointer;
-    padding: 6px;
+    height: 40px;
+    background-color: rgb(248, 241, 241);
+    border: none;
     border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 2px solid rgb(228, 241, 251);
 }

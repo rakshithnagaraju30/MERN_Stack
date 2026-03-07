@@ -28,7 +28,7 @@ function yellow() {
     toggleBoxColor('yellow', 'yellow', 'black');
 }
 
-function showText(event) {
+function greet(event) {
     if (event) {
         event.preventDefault();
     }

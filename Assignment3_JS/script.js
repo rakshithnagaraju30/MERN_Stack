@@ -34,7 +34,11 @@ function greet(event) {
     }
 
     const greet = document.getElementById('greet');
-    const text = document.getElementById('name').value;
+    const text = document.getElementById('name').value.trim();
+    if (text.length === 0) {
+        greet.innerHTML = 'Hello!';
+        return;
+    }
     greet.innerHTML = 'Hello, ' + text + '!';
 }
 

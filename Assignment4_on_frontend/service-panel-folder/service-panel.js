@@ -1,11 +1,9 @@
-// const { renderCart } = require("./render-cart.js");
-// // import renderCart from "./render-cart.js";
-// // import { calculateTotal } from "./calculate-total.js";
-// const { calculateTotal } = require("./calculate-total.js");
-// // renderCart();
-
 import { renderCart } from "./render-cart.js";
 import { calculateTotal } from "./calculate-total.js";
+import { sendEmail, subscribtionMail } from "./emailService.js";
+
+
+
 
 // list of services
 const services = [
@@ -21,63 +19,7 @@ const services = [
 let cart = [];
 
 
-
-// function addItem(button) {
-
-//     // Find clicked service row
-//     const serviceItem = button.parentElement;
-
-//     const serviceName = serviceItem.querySelector(".service-name").textContent.replace(/[^\w\s&]/g, "").trim();
-
-//     const servicePrice = Number(
-//         serviceItem
-//             .querySelector(".price")
-//             .textContent
-//             .replace("₹", "")
-//             .replace(".00", "")
-//     );
-
-//     // Find service object
-//     const service = services.find(item =>
-//         item.name === serviceName &&
-//         item.price === servicePrice
-//     );
-
-//     if (!service) return;
-
-//     // REMOVE ITEM
-//     if (button.textContent === "Remove Item") {
-
-//         cart = cart.filter(item => item.id !== service.id);
-
-//         renderCart();
-
-//         button.textContent = "Add Item";
-//         button.classList.remove("danger");
-
-//         return;
-//     }
-
-//     // Already exists
-//     const alreadyExists = cart.some(item => item.id === service.id);
-
-//     if (alreadyExists) return;
-
-//     // Add into cart
-//     cart.push(service);
-
-//     renderCart();
-
-//     button.textContent = "Remove Item";
-//     button.classList.add("danger");
-
-// }
-
-
-// ================================
-// Render Cart
-// ================================
-
+// this add service to the cart and also remove the service from the cart if it is already added to the cart and calculate the total price of the cart and also render the cart and also toggle the booking form state
 function addServiceToCart(button) {
     const service = button.parentElement;
     const serviceId = parseInt(service.id);
@@ -94,10 +36,7 @@ function addServiceToCart(button) {
         button.classList.remove("danger");
         return;
     };
-    
-
-
-  
+   
     cart.push(selectedService);
 
     renderCart(cart);
@@ -116,47 +55,6 @@ function removeServiceFromCart(serviceId) {
     calculateTotal(cart);
     toggleBookingFormState();
 }
-
-// function renderCart() {
-
-
-    
-
-//     const cartContainer = document.querySelector(".cart-items");
-
-//     cartContainer.innerHTML = "";
-    
-//     cart.forEach((service, index) => {
-
-//         cartContainer.innerHTML += `
-
-//             <div class="table-row">
-//                 <span>${index + 1}</span>
-//                 <span>${service.name}</span>
-//                 <span>₹${service.price}</span>
-//             </div>
-            
-//         `;
-           
-//     });
-    
-    
-// }
-
-
-
-
-// function calculateTotal() {
-        
-//         const total = cart.reduce((sum, service) => sum + service.price, 0);
-//         // const total = cart.reduce((sum, service) => sum + service.price, 0);
-//         const totalContainer = document.querySelector(".total-price");
-//         totalContainer.textContent = `Total: ₹${total}`;
-//     }
-
-
-// validate user input for name, email, and phone number
-
 
 
 function validateForm() {
@@ -244,10 +142,7 @@ function toggleBookingFormState() {
     }
 }
 
-
-
-
-
+// this is to warn user if no item in the cart and user clicks on book now button or anywhere on the book card
 const bookCard = document.querySelector("#book-now");
 bookCard.addEventListener("click", (e) => {
     // Only show warning for input/label clicks, not for button (button has its own handler)
@@ -278,102 +173,68 @@ bookCard.addEventListener("click", (e) => {
     }
 });
 
-//dom for book item button with validation
+// Handle the "Book Now" button click event
 const bookButton = document.getElementById("book-button");
+const bookForm = document.getElementById("book-form");
+
 bookButton.addEventListener("click", (e) => {
     e.preventDefault();
-    
-    // Show warning if cart is empty
-    if (cart.length === 0) {
-        // Remove existing warning first
-        const existingWarning = document.querySelector(".cart-warning-message");
-        if (existingWarning && cart.length !== 0) {
-            existingWarning.remove();
-        }
-        
-        // Create and insert new warning with icon
-        const warningMsg = document.createElement("p");
-        warningMsg.className = "cart-warning-message";
-        warningMsg.innerHTML = "<span style='color: #e74c3c; margin-right: 6px;'>⊘</span>Add the items to the cart to book";
-        
-        // Insert after the button
-        bookButton.insertAdjacentElement("afterend", warningMsg);
-        
-        // Auto-hide immediately
-        setTimeout(() => {
-            const msg = document.querySelector(".cart-warning-message");
-            if (msg) msg.remove();
-        },3000);
-        return;
-    }
-    
-    // Remove warning if it exists
-    const warningMsg = document.querySelector(".cart-warning-message");
-    if (warningMsg) warningMsg.remove();
     
     if (cart.length != 0) {
         const isValid = validateForm();
         if (isValid) {
             const bookCard = document.querySelector(".book-card-and-button");
             const addedCard = document.querySelector(".added-card");
-            
-            // Start slide-up animation
-            bookCard.classList.add("slide-up");
-            addedCard.classList.add("slide-up");
 
-            document.querySelectorAll(".add-btn").forEach((button) => {
+            sendEmail(bookForm)
+                .then(() => {
+                    bookCard.classList.add("slide-up");
+                    addedCard.classList.add("slide-up");
+
+                    document.querySelectorAll(".add-btn").forEach((button) => {
                         button.textContent = "Add Item";
                         button.classList.remove("danger");
-                });
-            cart = [];
-            renderCart(cart);
-            calculateTotal(cart);
-            toggleBookingFormState();
-
-            // Show success message after slight delay
-            setTimeout(() => {
-                bookCard.insertAdjacentHTML("beforeend", `
-                    <div class="success-message-card">
-                        <p class="success-email-message">! Email has been sent successfully</p>
-                    </div>
-                `);            }, 200);
-
-            // Reset after 3 seconds
-            setTimeout(() => {
-                const successCard = bookCard.querySelector(".success-message-card");
-                if (successCard) {
-                    successCard.classList.add("fade-out");
-                }
-                
-                setTimeout(() => {
-
-                    
-                    // Remove success card
-                    const msg = bookCard.querySelector(".success-message-card");
-                    if (msg) msg.remove();
-                    
-                    // Slide everything back down
-                    bookCard.classList.remove("slide-up");
-                    addedCard.classList.remove("slide-up");
-                    
-                    // Reset form and cart
-                    bookCard.querySelectorAll("input").forEach((input) => {
-                        input.value = "";
                     });
-                }, 400);
-            }, 3000);
+
+                    bookCard.insertAdjacentHTML("beforeend", `
+                        <div class="success-message-card">
+                            <p class="success-email-message">! Email has been sent successfully</p>
+                        </div>
+                    `);
+
+                    cart = [];
+                    renderCart(cart);
+                    calculateTotal(cart);
+                    toggleBookingFormState();
+                    
+
+                    setTimeout(() => {
+                        const successCard = bookCard.querySelector(".success-message-card");
+                        if (successCard) {
+                            successCard.classList.add("fade-out");
+                        }
+                        
+                        setTimeout(() => {
+                            const msg = bookCard.querySelector(".success-message-card");
+                            if (msg) msg.remove();
+                            
+                            bookCard.classList.remove("slide-up");
+                            addedCard.classList.remove("slide-up");
+                        }, 400);
+                    }, 3000);
+                })
+                .catch(() => {
+                    alert("Failed to send email. Please try again.");
+                });
         }
         else {
             alert("Please fill in all fields correctly.");
         }
-
-    
     }
-   
 });
 
 
-
+//by default toggle the booking form state on page load
 toggleBookingFormState();
 
 // Initialize cart display on page load
@@ -384,6 +245,14 @@ const newsletterForm = document.querySelector(".newsletter-form");
 newsletterForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
+    subscribtionMail(newsletterForm).then(() => {
+        alert("Successfully subscribed!");
+        newsletterForm.reset();
+    }).catch((error) => {
+        console.error("Subscription Error:", error);
+        alert("Failed to subscribe. Please try again.");
+    });
+
     const nameInput = newsletterForm.querySelector("#full-name");
     if (!nameInput.value.trim()) {
         nameInput.setCustomValidity("Please enter your full name.");
@@ -392,8 +261,13 @@ newsletterForm.addEventListener("submit", (event) => {
         return;
     }
 
-    alert("Successfully subscribed!");
-    newsletterForm.reset();
+    const emailInput = newsletterForm.querySelector("#email");
+    if (!emailInput.value.trim()) {
+        emailInput.setCustomValidity("Please enter your email address.");
+        newsletterForm.reportValidity();
+        emailInput.setCustomValidity("");
+        return;
+    }
 });
 
 const addButtons = document.querySelectorAll(".add-btn");
@@ -401,11 +275,4 @@ addButtons.forEach(button => {
     button.addEventListener("click", () => addServiceToCart(button));
 });
 
-// Add click listener to entire book-card to show warning when cart is empty
 
-
-/**
- * clicked on book now button
- * then validate the form and if valid then show alert and reset the form
- * else show alert to fill all fields
- */

@@ -5,6 +5,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Laundry Services</title>
 	<link rel="stylesheet" href="./styles.css">
+
+	<!-- EmailJS -->
+	<script
+    	src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+	</script>
+
+	<!-- <script type="module" src="./app.js"></script> --> 
+
 </head>
 <body>
 	<main class="page">
@@ -131,26 +139,27 @@
 				<div class="book-card-and-button">
 					<div class="book-card"  id="book-now">
 					<h3>Book Now</h3>
-						<div class="form-row">
-							<label>
-								Full Name
-								<input type="text" placeholder="Enter name" />
+					<form id="book-form">
+						
+							<label>Full Name 
+							<input type="text" placeholder="Enter name" name="from_name" autocomplete="name" />		
 							</label>
-							
 							<label>
 								Email ID
-								<input type="email" placeholder="Enter mail ID" />
+								<input type="email" placeholder="Enter mail ID" name="email" autocomplete="email" />
 							</label>
 							<label>
 								Phone Number
-								<input type="tel" placeholder="Enter Phone no" maxlength="10"/>
+								<input type="tel" placeholder="Enter Phone no" maxlength="10" name="phone" autocomplete="tel" />
 							</label>
-						</div>
-					</div>
+						
+						
+							<button type="button" class="primary-btn full" id="book-button">Book now</button>
+						
+					</form>
+					
 				
-					<div>
-						<button class="primary-btn full" id="book-button">Book now</button>
-					</div>
+						
 				</div>
 			</div>
 		</section>
@@ -185,11 +194,11 @@
 				<h2>Subscribe to our newsletter.</h2>
 				<p>Get updates on offers, new services, and tips for garment care.</p>
 			</div>
-			<form class="newsletter-form">
+			<form class="newsletter-form" >
 				<label class="sr-only" for="full-name">Full name</label>
-				<input id="full-name" type="text" placeholder="Full name" required />
+				<input id="full-name" type="text" placeholder="Full name" required name="full-name" />
 				<label class="sr-only" for="email">Email</label>
-				<input id="email" type="email" placeholder="Email" required />
+				<input id="email" type="email" placeholder="Email" required autocomplete="email" name="email-address" />
 				<button type="submit">Subscribe</button>
 			</form>
 		</section>

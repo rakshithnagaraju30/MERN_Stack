@@ -146,9 +146,9 @@ function toggleBookingFormState() {
 const bookCard = document.querySelector("#book-now");
 bookCard.addEventListener("click", (e) => {
     // Only show warning for input/label clicks, not for button (button has its own handler)
-
+    
     //warn user clicks on anywhere on the book card when cart is empty or form is disabled
-    if (cart.length === 0 ) {
+    if (cart.length === 0 && e.target.matches("input")) {
     
         // Remove existing warning first
         const existingWarning = document.querySelector(".cart-warning-message");
@@ -186,9 +186,47 @@ bookButton.addEventListener("click", (e) => {
             const bookCard = document.querySelector(".book-card-and-button");
             const addedCard = document.querySelector(".added-card");
 
-            sendEmail(bookForm)
-                .then(() => {
-                    bookCard.classList.add("slide-up");
+            
+                // .then(() => {
+
+                //     bookCard.classList.add("slide-up");
+                //     addedCard.classList.add("slide-up");
+
+                //     document.querySelectorAll(".add-btn").forEach((button) => {
+                //         button.textContent = "Add Item";
+                //         button.classList.remove("danger");
+                //     });
+
+                //     bookCard.insertAdjacentHTML("beforeend", `
+                //         <div class="success-message-card">
+                //             <p class="success-email-message">! Email has been sent successfully</p>
+                //         </div>
+                //     `);
+                //     cart = [];
+                //     renderCart(cart);
+                //     calculateTotal(cart);
+                //     toggleBookingFormState();
+
+
+                //     setTimeout(() => {
+                //         const successCard = bookCard.querySelector(".success-message-card");
+                //         if (successCard) {
+                //             successCard.classList.add("fade-out");
+                //         }
+                        
+                //         setTimeout(() => {
+                //             const msg = bookCard.querySelector(".success-message-card");
+                //             if (msg) msg.remove();
+                            
+                //             bookCard.classList.remove("slide-up");
+                //             addedCard.classList.remove("slide-up");
+                //         }, 400);
+                //     }, 3000);
+                // })
+                // .catch(() => {
+                //     alert("Failed to send email. Please try again.");
+                // });
+                bookCard.classList.add("slide-up");
                     addedCard.classList.add("slide-up");
 
                     document.querySelectorAll(".add-btn").forEach((button) => {
@@ -201,12 +239,12 @@ bookButton.addEventListener("click", (e) => {
                             <p class="success-email-message">! Email has been sent successfully</p>
                         </div>
                     `);
-
+                    sendEmail(bookForm)
                     cart = [];
                     renderCart(cart);
                     calculateTotal(cart);
                     toggleBookingFormState();
-                    
+
 
                     setTimeout(() => {
                         const successCard = bookCard.querySelector(".success-message-card");
@@ -222,11 +260,7 @@ bookButton.addEventListener("click", (e) => {
                             addedCard.classList.remove("slide-up");
                         }, 400);
                     }, 3000);
-                })
-                .catch(() => {
-                    alert("Failed to send email. Please try again.");
-                });
-        }
+            }
         else {
             alert("Please fill in all fields correctly.");
         }

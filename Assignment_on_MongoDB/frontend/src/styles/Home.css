@@ -1,0 +1,179 @@
+
+/* Main container */
+.home {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* Page heading */
+.home h1 {
+    font-size: 32px;
+    color: #222;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Add Task Form */
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+    margin: 0 auto 40px;
+    padding: 25px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.task-form h2 {
+    margin: 0 0 10px;
+    text-align: center;
+    color: #333;
+}
+
+.task-form input,
+.task-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+.task-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.task-form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.task-form button,
+.task-card-actions button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.task-form button {
+    background: #2563eb;
+    color: white;
+}
+
+.task-form button:hover {
+    background: #1d4ed8;
+}
+
+.cancel-btn {
+    background: #6b7280 !important;
+}
+
+.cancel-btn:hover {
+    background: #4b5563 !important;
+}
+
+/* Tasks container */
+.tasks-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Individual task card */
+.task-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect */
+.task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Task title */
+.task-card h3 {
+    font-size: 20px;
+    color: #2563eb;
+    margin-bottom: 10px;
+}
+
+/* Task description */
+.task-card p {
+    font-size: 15px;
+    color: #151313;
+    line-height: 1.6;
+}
+
+.task-card-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.edit-btn {
+    background: #10b981;
+    color: white;
+}
+
+.edit-btn:hover {
+    background: #059669;
+}
+
+.delete-btn {
+    background: #ef4444;
+    color: white;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+.material-symbols-outlined {
+    cursor: pointer;
+    margin-right: 0px;
+}
+
+/* Loading, error, and empty messages */
+.message {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    margin-top: 30px;
+}
+
+.message.error {
+    color: #b91c1c;
+}
+
+/* Responsive layout */
+@media (max-width: 600px) {
+    .home {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .home h1 {
+        font-size: 26px;
+    }
+
+    .tasks-container {
+        grid-template-columns: 1fr;
+    }
+}
+

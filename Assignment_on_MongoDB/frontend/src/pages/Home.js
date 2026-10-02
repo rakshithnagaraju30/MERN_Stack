@@ -54,7 +54,7 @@ function Home() {
 
             const newTask = await response.json();
 
-            setTasks((prevTasks) => [newTask, ...prevTasks]);
+            setTasks((prevTasks) => [...prevTasks, newTask]);
 
             setTitle("");
             setDescription("");

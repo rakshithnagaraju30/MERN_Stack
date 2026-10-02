@@ -8,7 +8,7 @@ function Home() {
     const [description, setDescription] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [isEditing, setIsEditing] = useState(false);
+    
 
     useEffect(() => {
         const getTasks = async () => {

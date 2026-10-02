@@ -10,7 +10,7 @@ setServers(["8.8.8.8", "1.1.1.1"]);
 const app = express();
 
 // Allow requests specifically from your React/frontend port
-app.use(cors({ origin: 'https://todomakeapp.netlify.app/' }));
+app.use(cors({ origin: 'https://todomakeapp.netlify.app' }));
 
 const PORT = 4000;
 

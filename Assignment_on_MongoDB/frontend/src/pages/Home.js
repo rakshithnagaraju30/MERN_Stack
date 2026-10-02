@@ -13,7 +13,7 @@ function Home() {
     useEffect(() => {
         const getTasks = async () => {
             try {
-                const response = await fetch("http://localhost:4000/api/tasks");
+                const response = await fetch("https://todolistapp-3wft.onrender.com/api/tasks");
 
                 if (!response.ok) {
                     throw new Error("Failed to fetch tasks");
@@ -37,7 +37,7 @@ function Home() {
         setError("");
 
         try {
-            const response = await fetch("http://localhost:4000/api/tasks", {
+            const response = await fetch("https://todolistapp-3wft.onrender.com/api/tasks", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -63,40 +63,40 @@ function Home() {
         }
     };
 
-    const handleSave = (id) => {
-        const updateTask =  async (updatedTitle, updatedDescription ) => {
-        try {
-                const response = await fetch(`http://localhost:4000/api/tasks/${id}`,
-                    {
-                        method: "PUT",
-                        headers: {
-                        "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                        updatedTitle,
-                        updatedDescription
-                        })
-                    }
-                );
-                if (!response.ok) {
-                         throw new Error("Failed to add task");
-                }
+    // const handleSave = (id) => {
+    //     const updateTask =  async (updatedTitle, updatedDescription ) => {
+    //     try {
+    //             const response = await fetch(`https://todolistapp-3wft.onrender.com/api/tasks/${id}`,
+    //                 {
+    //                     method: "PUT",
+    //                     headers: {
+    //                     "Content-Type": "application/json",
+    //                     },
+    //                     body: JSON.stringify({
+    //                     updatedTitle,
+    //                     updatedDescription
+    //                     })
+    //                 }
+    //             );
+    //             if (!response.ok) {
+    //                      throw new Error("Failed to add task");
+    //             }
 
-                const updatedTask = await response.json();
-                setTasks((prevTasks) => [updatedTask, ...prevTasks]);
+    //             const updatedTask = await response.json();
+    //             setTasks((prevTasks) => [updatedTask, ...prevTasks]);
 
-        } catch {}
-    }
-    updateTask( title, description );
-    setIsEditing(false);
-    };
+    //     } catch {}
+    // }
+    // updateTask( title, description );
+    // setIsEditing(false);
+    // };
 
     
     // Delete task
     const deleteTask = async (id) => {
         try {
             const response = await fetch(
-                `http://localhost:4000/api/tasks/${id}`,
+                `https://todolistapp-3wft.onrender.com/api/tasks/${id}`,
                 {
                     method: "DELETE"
                 }

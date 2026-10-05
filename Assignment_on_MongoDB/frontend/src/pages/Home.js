@@ -1,4 +1,5 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "../styles/Home.css";
 
 function Home() {
@@ -8,19 +9,22 @@ function Home() {
     const [description, setDescription] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    
+    const [isEditing, setIsEditing] = useState(null);
+    const [editTitle, setEditTitle] = useState("");
+    const [editDescription, setEditDescription] = useState("");
+    const [search, setSearch] = useState("");
 
+    //API urls
+    // const DEPLOYED_API = "https://todolistapp-3wft.onrender.com";
+    const LOCAL_API = "http://localhost:4000";
     useEffect(() => {
         const getTasks = async () => {
             try {
-                const response = await fetch("https://todolistapp-3wft.onrender.com/api/tasks");
+                const response = await axios.get(
+                    `${LOCAL_API}/api/tasks`
+                );
 
-                if (!response.ok) {
-                    throw new Error("Failed to fetch tasks");
-                }
-
-                const data = await response.json();
-                setTasks(data);
+                setTasks(response.data);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -31,30 +35,38 @@ function Home() {
         getTasks();
     }, []);
 
+    // Search tasks
+    const searchTasks = async (search) => {
+        setSearch(search);
+        setError("");
+
+        try {
+            const response = await axios.get(
+                `${LOCAL_API}/api/tasks/search?q=${encodeURIComponent(search)}`
+            );
+
+            setTasks(response.data);
+        } catch (err) {
+            setError(err.message);
+        }
+    };
     // Add a new task
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
 
         try {
-            const response = await fetch("https://todolistapp-3wft.onrender.com/api/tasks", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
+            const response = await axios.post(
+                `${LOCAL_API}/api/tasks`,
+                {
                     title,
                     description
-                })
-            });
+                }
+            );
 
-            if (!response.ok) {
-                throw new Error("Failed to add task");
-            }
+            const newTask = response.data;
 
-            const newTask = await response.json();
-
-            setTasks((prevTasks) => [...prevTasks, newTask]);
+            setTasks((prevTasks) => [newTask, ...prevTasks]);
 
             setTitle("");
             setDescription("");
@@ -63,48 +75,49 @@ function Home() {
         }
     };
 
-    // const handleSave = (id) => {
-    //     const updateTask =  async (updatedTitle, updatedDescription ) => {
-    //     try {
-    //             const response = await fetch(`https://todolistapp-3wft.onrender.com/api/tasks/${id}`,
-    //                 {
-    //                     method: "PUT",
-    //                     headers: {
-    //                     "Content-Type": "application/json",
-    //                     },
-    //                     body: JSON.stringify({
-    //                     updatedTitle,
-    //                     updatedDescription
-    //                     })
-    //                 }
-    //             );
-    //             if (!response.ok) {
-    //                      throw new Error("Failed to add task");
-    //             }
+    const handleDescriptionKeyDown = (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            e.currentTarget.form.requestSubmit();
+        }
+    };
 
-    //             const updatedTask = await response.json();
-    //             setTasks((prevTasks) => [updatedTask, ...prevTasks]);
+    const handleEdit = (task) => {
+        setIsEditing(task._id);
+        setEditTitle(task.title);
+        setEditDescription(task.description);
+    };
 
-    //     } catch {}
-    // }
-    // updateTask( title, description );
-    // setIsEditing(false);
-    // };
-
-    
-    // Delete task
-    const deleteTask = async (id) => {
+    //update task
+    const updateTask = async (id, title, description) => {
         try {
-            const response = await fetch(
-                `https://todolistapp-3wft.onrender.com/api/tasks/${id}`,
+            const response = await axios.put(
+                `${LOCAL_API}/api/tasks/${id}`,
                 {
-                    method: "DELETE"
+                    title,
+                    description
                 }
             );
 
-            if (!response.ok) {
-                throw new Error("Failed to delete task");
-            }
+            const updatedTask = response.data;
+
+            setTasks((prevTasks) =>
+                prevTasks.map((task) =>
+                    task._id === id ? updatedTask : task
+                )
+            );
+            setIsEditing(null);
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+    // Delete task
+    const deleteTask = async (id) => {
+        try {
+            await axios.delete(
+                `${LOCAL_API}/api/tasks/${id}`
+            );
 
             setTasks((prevTasks) =>
                 prevTasks.filter((task) => task._id !== id)
@@ -115,7 +128,7 @@ function Home() {
         }
     };
 
-  
+
     return (
         <div className="home">
             <h1>To Do list</h1>
@@ -136,6 +149,7 @@ function Home() {
                     placeholder="Enter task description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
+                    onKeyDown={handleDescriptionKeyDown}
                     required
                 />
 
@@ -143,6 +157,16 @@ function Home() {
             </form>
 
             {error && <p className="message error">{error}</p>}
+
+            {/* Search Tasks */}
+            <input
+                className="search-bar"
+                type="text"
+                placeholder="Search tasks..."
+                value={search}
+                onChange={(e) => searchTasks(e.target.value)}
+            />
+
 
             {/* Display Tasks */}
             <h2 className="task-heading">My Tasks</h2>
@@ -157,28 +181,70 @@ function Home() {
 
             {!loading && tasks.length > 0 && (
                 <div className="tasks-container">
-                    {tasks.map((task) => (
-                        <div className="task-card" key={task._id}>
-                            {/* <span className="edit-button" onClick={() => setIsEditing(!isEditing)}>
-                                    {isEditing ? "done" : "edit"}
-                                </span> */}
+                        {tasks.map((task) => (
+    <div className="task-card">
 
-                                <h3>
-                                    {task.title}    
-                                </h3>
+    {isEditing === task._id ? (
+        <>
+            <input
+                type="text"
+                value={editTitle}
+                onChange={(e) => setEditTitle(e.target.value)}
+            />
 
-                                <p>
-                                    {task.description}
-                                </p>
-                            <span
-                                className="material-symbols-outlined"
-                                onClick={() => deleteTask(task._id)}
-                            >
-                                delete
-                            </span>  
-                        
-                        </div>
-                    ))}
+            <textarea
+                value={editDescription}
+                onChange={(e) => setEditDescription(e.target.value)}
+            />
+
+            <div className="task-card-actions">
+                <button
+                    className="save-btn"
+                    onClick={() =>
+                        updateTask(
+                            task._id,
+                            editTitle,
+                            editDescription
+                        )
+                    }
+                >
+                    Save
+                </button>
+
+                <button
+                    className="cancel-btn"
+                    onClick={() => setIsEditing(null)}
+                >
+                    Cancel
+                </button>
+            </div>
+        </>
+    ) : (
+        <>
+            <h3>{task.title}</h3>
+
+            <p>{task.description}</p>
+
+            <div className="task-card-actions">
+                <button
+                    className="edit-btn"
+                    onClick={() => handleEdit(task)}
+                >
+                    Edit
+                </button>
+
+                <button
+                    className="delete-btn"
+                    onClick={() => deleteTask(task._id)}
+                >
+                    Delete
+                </button>
+            </div>
+        </>
+    )}
+
+</div>  
+))}
                 </div>
             )}
         </div>
@@ -187,4 +253,3 @@ function Home() {
 
 
 export default Home;
-

@@ -31,6 +31,20 @@ The repository currently includes the following learning tasks:
 | `Assignment_on_NodeJS` | Backend development exercises using Node.js and related tools. |
 | `Assignment_on_MongoDB` | MongoDB and MERN stack practice, including a task management application. |
 
+## Deployed Applications
+
+The following are the actual deployed links for the assignments:
+
+| Assignment | Live application |
+| --- | --- |
+| Assignment 1 on HTML | [Simple Laundry Mart](https://simplelaundrymart.netlify.app/) |
+| Assignment 2 — CSS | [Laundry Mart Styles](https://laundrymartstyles.netlify.app/) |
+| Assignment 3 — JavaScript | [Responsive Design with JS](https://responsivedesignwithjs.netlify.app/) |
+| Assignment 4 — Frontend | [Just Frontend App](https://justfrontendapp.netlify.app/) |
+| Assignment — MongoDB | [To-Do Make App](https://todomakeapp.netlify.app/) |
+| Assignment — Node.js | [MERN Stack Node.js App](https://mern-stack-hf0o.onrender.com/) |
+| Assignment — React | [Just Hooks](https://justhooks.netlify.app/) |
+
 ## Technologies Used
 
 - HTML
@@ -94,7 +108,7 @@ Refer to the README inside `Assignment_on_MongoDB` for project-specific setup in
 
 ## Learning Progress
 
-This repository is continuously updated as new concepts, assignments, and projects are completed. The tasks are organized to support gradual learning, beginning with frontend fundamentals and progressing toward backend and full-stack development.
+This repository is continuously updated as new concepts, assignments, and projects are completed. The tasks are organized to support gradual learning, beginning with frontend fundamentals and progressing toward full-stack MERN development.
 
 ## Future Improvements
 
@@ -104,7 +118,6 @@ Planned improvements may include:
 - Improving project documentation.
 - Adding authentication and authorization.
 - Adding automated tests.
-- Deploying selected applications.
 - Improving responsive design and accessibility.
 
 ## Author

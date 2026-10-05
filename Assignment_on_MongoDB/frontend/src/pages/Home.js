@@ -15,13 +15,13 @@ function Home() {
     const [search, setSearch] = useState("");
 
     //API urls
-    // const DEPLOYED_API = "https://todolistapp-3wft.onrender.com";
-    const LOCAL_API = "http://localhost:4000";
+    const DEPLOYED_API = "https://todolistapp-3wft.onrender.com";
+    // const LOCAL_API = "http://localhost:4000";
     useEffect(() => {
         const getTasks = async () => {
             try {
                 const response = await axios.get(
-                    `${LOCAL_API}/api/tasks`
+                    `${DEPLOYED_API}/api/tasks`
                 );
 
                 setTasks(response.data);
@@ -42,7 +42,7 @@ function Home() {
 
         try {
             const response = await axios.get(
-                `${LOCAL_API}/api/tasks/search?q=${encodeURIComponent(search)}`
+                `${DEPLOYED_API}/api/tasks/search?q=${encodeURIComponent(search)}`
             );
 
             setTasks(response.data);
@@ -57,7 +57,7 @@ function Home() {
 
         try {
             const response = await axios.post(
-                `${LOCAL_API}/api/tasks`,
+                `${DEPLOYED_API}/api/tasks`,
                 {
                     title,
                     description
@@ -92,7 +92,7 @@ function Home() {
     const updateTask = async (id, title, description) => {
         try {
             const response = await axios.put(
-                `${LOCAL_API}/api/tasks/${id}`,
+                `${DEPLOYED_API}/api/tasks/${id}`,
                 {
                     title,
                     description
@@ -116,7 +116,7 @@ function Home() {
     const deleteTask = async (id) => {
         try {
             await axios.delete(
-                `${LOCAL_API}/api/tasks/${id}`
+                `${DEPLOYED_API}/api/tasks/${id}`
             );
 
             setTasks((prevTasks) =>

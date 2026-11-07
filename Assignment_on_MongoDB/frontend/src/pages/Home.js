@@ -182,7 +182,7 @@ function Home() {
             {!loading && tasks.length > 0 && (
                 <div className="tasks-container">
                         {tasks.map((task) => (
-    <div className="task-card">
+    <div className="task-card" id="task">
 
     {isEditing === task._id ? (
         <>

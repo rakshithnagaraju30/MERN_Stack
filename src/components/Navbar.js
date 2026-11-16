@@ -6,10 +6,10 @@ function Navbar() {
       </div>
       <div className="nav-links-container">
          <div className="nav-links">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Contact</a>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
       </div>
       <button className="create-account-btn">Create account</button>
       </div>
